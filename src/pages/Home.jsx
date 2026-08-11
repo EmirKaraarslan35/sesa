@@ -28,7 +28,11 @@ export default function Home() {
               } catch (err) {
                 console.error("Failed to stop scanner", err);
               }
-              navigate(`/machine/${decodedText}`);
+              let machineCode = decodedText;
+              if (decodedText.includes('/')) {
+                machineCode = decodedText.split('/').pop();
+              }
+              navigate(`/machine/${machineCode}`);
             },
             (err) => {}
           );

@@ -25,7 +25,11 @@ export default function ScanQR() {
             } catch (err) {
               console.error("Kamera durdurulamadı", err);
             }
-            navigate(`/machine/${decodedText}`);
+            let machineCode = decodedText;
+            if (decodedText.includes('/')) {
+              machineCode = decodedText.split('/').pop();
+            }
+            navigate(`/machine/${machineCode}`);
           },
           (err) => {
             // Hatalar sürekli tetiklenir, loglamıyoruz
