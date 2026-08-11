@@ -56,9 +56,9 @@ export default function Home() {
   };
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
+    <div className="home-grid" style={{ height: '100%' }}>
       {/* Top Half: Scanner */}
-      <div style={{ 
+      <div className="card" style={{ 
         flex: 1, 
         backgroundColor: '#E0E0E0', 
         borderRadius: 'var(--border-radius-lg)',
@@ -68,13 +68,12 @@ export default function Home() {
         flexDirection: 'column',
         justifyContent: 'center',
         alignItems: 'center',
-        minHeight: '250px',
-        marginBottom: '1.5rem'
+        minHeight: '300px',
+        marginBottom: 0
       }}>
         {!scannerActive ? (
           <button 
             className="btn btn-primary" 
-            style={{ position: 'absolute', bottom: '20px', left: '20px', right: '20px' }}
             onClick={() => setScannerActive(true)}
           >
             QR Kodu Kameraya Okutun
@@ -85,7 +84,7 @@ export default function Home() {
       </div>
 
       {/* Bottom Half: Manual Entry Card */}
-      <div className="card" style={{ borderBottomLeftRadius: 0, borderBottomRightRadius: 0, marginBottom: 0, border: 'none' }}>
+      <div className="card" style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
         <h3 className="mb-2" style={{ color: 'var(--color-text)', fontSize: '1.2rem' }}>
           Veya Kodu El İle Girin:
         </h3>

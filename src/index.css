@@ -230,3 +230,61 @@ body {
 .justify-center { justify-content: center; }
 .gap-2 { gap: 0.5rem; }
 .gap-4 { gap: 1rem; }
+
+/* ========================================================= */
+/* ??? DESKTOP (TAM SÝTE) GÖRÜNÜMÜ ÝÇÝN ÖZEL MEDYA SORGULARI   */
+/* ========================================================= */
+@media (min-width: 768px) {
+  .app-container {
+    max-width: 1200px;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.08);
+    border-radius: 24px;
+    margin: 2rem auto;
+    min-height: calc(100vh - 4rem);
+    overflow: hidden;
+  }
+
+  .header {
+    flex-direction: row;
+    justify-content: space-between;
+    padding: 1.5rem 3rem;
+  }
+
+  .home-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 3rem;
+    align-items: stretch;
+    margin-top: 2rem;
+  }
+
+  .bottom-nav {
+    position: static;
+    flex-direction: row;
+    background: transparent;
+    box-shadow: none;
+    padding: 0;
+    justify-content: flex-end;
+    gap: 2rem;
+  }
+
+  .nav-item {
+    flex-direction: row;
+    font-size: 1rem;
+  }
+
+  .nav-icon-wrapper {
+    width: 32px;
+    height: 32px;
+  }
+
+  .main-content {
+    padding: 3rem;
+    padding-bottom: 3rem;
+  }
+
+  .btn {
+    width: auto !important;
+    padding: 0.8rem 2rem;
+  }
+}
