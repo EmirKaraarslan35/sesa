@@ -1,16 +1,16 @@
-@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&display=swap');
+﻿@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&display=swap');
 
 :root {
   /* SESA Color Palette based on Android App */
-  --color-primary: #FBC02D; /* SESA Sarı/Turuncu */
+  --color-primary: #FBC02D; /* SESA SarÄ±/Turuncu */
   --color-primary-dark: #F57F17;
   --color-primary-light: #FFF9C4;
   
   --color-header-bg: #212121; /* Koyu Gri/Siyah */
   --color-header-text: #FFFFFF;
   
-  --color-background: #F5F6F8; /* Uygulama Arka Planı */
-  --color-surface: #FFFFFF; /* Kart Arka Planı */
+  --color-background: #F5F6F8; /* Uygulama Arka PlanÄ± */
+  --color-surface: #FFFFFF; /* Kart Arka PlanÄ± */
   
   --color-text: #212121;
   --color-text-muted: #757575;
@@ -43,7 +43,7 @@ body {
 
 /* Responsive Layout (Mobile + Desktop) */
 .app-container {
-  max-width: 1200px; /* Geniş ekranlar için */
+  max-width: 1200px; /* GeniÅŸ ekranlar iÃ§in */
   width: 100%;
   margin: 0 auto;
   min-height: 100vh;
@@ -232,7 +232,7 @@ body {
 .gap-4 { gap: 1rem; }
 
 /* ========================================================= */
-/* ??? DESKTOP (TAM S�TE) G�R�N�M� ���N �ZEL MEDYA SORGULARI   */
+/* ??? DESKTOP (TAM SİTE) GÖRÜNÜMÜ İÇİN ÖZEL MEDYA SORGULARI   */
 /* ========================================================= */
 @media (min-width: 768px) {
   .app-container {
