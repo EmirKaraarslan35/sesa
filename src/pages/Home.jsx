@@ -1,7 +1,18 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Html5Qrcode } from 'html5-qrcode';
-import { Keyboard, ArrowRight } from 'lucide-react';
+import { Keyboard, ArrowRight, QrCode, Camera } from 'lucide-react';
+
+// QR veya barkod iceriginden makine kodunu cikaran yardimci fonksiyon
+function extractMachineCode(rawText) {
+  // Eger bir URL ise (/ icerir), en sondaki parcayi al
+  // Ornegin: https://emirkaraarslan35.github.io/machine/MKN-8081 -> MKN-8081
+  if (rawText.includes('/')) {
+    const parts = rawText.split('/').filter(p => p.length > 0);
+    return parts[parts.length - 1];
+  }
+  return rawText.trim();
+}
 
 export default function Home() {
   const navigate = useNavigate();
@@ -28,17 +39,15 @@ export default function Home() {
               } catch (err) {
                 console.error("Failed to stop scanner", err);
               }
-              let machineCode = decodedText;
-              if (decodedText.includes('/')) {
-                machineCode = decodedText.split('/').pop();
-              }
+              const machineCode = extractMachineCode(decodedText);
               navigate(`/machine/${machineCode}`);
             },
             (err) => {}
           );
         } catch (err) {
-          console.error("Kamera başlatılamadı:", err);
-          alert("Kameraya erişilemedi!");
+          console.error("Kamera baslatilmadi:", err);
+          alert("Kameraya erisilemedi!");
+          setScannerActive(false);
         }
       };
       
@@ -60,45 +69,52 @@ export default function Home() {
   };
 
   return (
-    <div className="home-grid" style={{ height: '100%' }}>
-      {/* Top Half: Scanner */}
+    <div className="home-grid" style={{ display: 'flex', flexDirection: 'column', height: '100%', gap: '1.5rem' }}>
+      {/* QR Tarayici */}
       <div className="card" style={{ 
         flex: 1, 
-        backgroundColor: '#E0E0E0', 
+        backgroundColor: scannerActive ? '#000' : '#E8E8E8', 
         borderRadius: 'var(--border-radius-lg)',
         overflow: 'hidden',
-        position: 'relative',
         display: 'flex',
         flexDirection: 'column',
         justifyContent: 'center',
         alignItems: 'center',
-        minHeight: '300px',
-        marginBottom: 0
+        minHeight: '280px',
+        marginBottom: 0,
+        position: 'relative'
       }}>
         {!scannerActive ? (
-          <button 
-            className="btn btn-primary" 
-            onClick={() => setScannerActive(true)}
-          >
-            QR Kodu Kameraya Okutun
-          </button>
+          <div style={{ textAlign: 'center' }}>
+            <Camera size={48} color="#999" style={{ marginBottom: '1rem' }} />
+            <p style={{ color: '#888', marginBottom: '1.5rem', fontSize: '0.95rem' }}>
+              QR kodu taramak icin kamerayi acin
+            </p>
+            <button 
+              className="btn btn-primary" 
+              onClick={() => setScannerActive(true)}
+            >
+              <QrCode size={20} />
+              Kamerayi Ac
+            </button>
+          </div>
         ) : (
           <div id="qr-reader" style={{ width: '100%', height: '100%' }}></div>
         )}
       </div>
 
-      {/* Bottom Half: Manual Entry Card */}
-      <div className="card" style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
-        <h3 className="mb-2" style={{ color: 'var(--color-text)', fontSize: '1.2rem' }}>
-          Veya Kodu El İle Girin:
+      {/* Manuel Kod Girisi */}
+      <div className="card" style={{ marginBottom: 0 }}>
+        <h3 style={{ color: 'var(--color-text)', fontSize: '1.1rem', marginBottom: '1rem' }}>
+          Veya Kodu El ile Girin
         </h3>
         
         <form onSubmit={handleManualSubmit}>
-          <div className="input-group flex items-center" style={{ backgroundColor: '#fff', border: '1px solid #ccc', borderRadius: 'var(--border-radius)', padding: '0.5rem 1rem' }}>
-            <Keyboard size={24} color="var(--color-text-muted)" style={{ marginRight: '0.8rem' }} />
+          <div style={{ display: 'flex', alignItems: 'center', backgroundColor: '#f5f5f5', border: '1px solid #ddd', borderRadius: 'var(--border-radius)', padding: '0.6rem 1rem' }}>
+            <Keyboard size={22} color="var(--color-text-muted)" style={{ marginRight: '0.8rem', flexShrink: 0 }} />
             <input
               type="text"
-              placeholder="Örn: SESA-PRES-01"
+              placeholder="Orn: SESA-PRES-01"
               value={code}
               onChange={(e) => setCode(e.target.value)}
               style={{ border: 'none', outline: 'none', flex: 1, fontSize: '1rem', backgroundColor: 'transparent' }}
@@ -107,7 +123,7 @@ export default function Home() {
           
           <button type="submit" className="btn btn-primary" style={{ width: '100%', marginTop: '1rem' }}>
             <ArrowRight size={20} />
-            İlerle
+            Ilerle
           </button>
         </form>
       </div>

@@ -7,20 +7,40 @@ export default function PublicLayout() {
   return (
     <div className="app-container">
       <header className="header">
-        <div className="header-logo">
-          SESA<span>®</span>
+        <div className="header-left">
+          <div className="header-logo">
+            SESA<span>®</span>
+          </div>
+          <div className="header-subtitle">Flexible Packaging</div>
         </div>
-        <div className="header-subtitle">Flexible Packaging</div>
+        
+        <nav className="header-nav">
+          <Link 
+            to="/" 
+            className={`header-nav-item ${location.pathname === '/' || location.pathname.startsWith('/machine') ? 'active' : ''}`}
+          >
+            <QrCode size={18} />
+            Saha Tarayıcı
+          </Link>
+          <Link 
+            to="/login" 
+            className={`header-nav-item ${location.pathname === '/login' || location.pathname === '/register' ? 'active' : ''}`}
+          >
+            <ShieldUser size={18} />
+            Yetkili Paneli
+          </Link>
+        </nav>
       </header>
       
       <main className="main-content">
         <Outlet />
       </main>
 
+      {/* Mobil alt menü - sadece telefonda görünür */}
       <nav className="bottom-nav">
         <Link 
           to="/" 
-          className={`nav-item ${location.pathname !== '/login' ? 'active' : ''}`}
+          className={`nav-item ${location.pathname === '/' || location.pathname.startsWith('/machine') ? 'active' : ''}`}
         >
           <div className="nav-icon-wrapper">
             <QrCode size={24} />
@@ -29,7 +49,7 @@ export default function PublicLayout() {
         </Link>
         <Link 
           to="/login" 
-          className={`nav-item ${location.pathname === '/login' ? 'active' : ''}`}
+          className={`nav-item ${location.pathname === '/login' || location.pathname === '/register' ? 'active' : ''}`}
         >
           <div className="nav-icon-wrapper">
             <ShieldUser size={24} />

@@ -3,6 +3,14 @@ import { useNavigate } from 'react-router-dom';
 import { Html5Qrcode } from 'html5-qrcode';
 import { ArrowLeft } from 'lucide-react';
 
+function extractMachineCode(rawText) {
+  if (rawText.includes('/')) {
+    const parts = rawText.split('/').filter(p => p.length > 0);
+    return parts[parts.length - 1];
+  }
+  return rawText.trim();
+}
+
 export default function ScanQR() {
   const navigate = useNavigate();
   const [error, setError] = useState('');
@@ -14,30 +22,24 @@ export default function ScanQR() {
     const startScanner = async () => {
       try {
         await html5QrCode.start(
-          { facingMode: "environment" }, // Arka kamerayı zorunlu kıl
+          { facingMode: "environment" },
           { fps: 10, qrbox: { width: 250, height: 250 } },
           async (decodedText) => {
             if (isNavigating) return;
             isNavigating = true;
             try {
-              // Yönlendirmeden önce kamerayı güvenle kapat (beyaz ekran hatası çözümü)
               await html5QrCode.stop();
             } catch (err) {
-              console.error("Kamera durdurulamadı", err);
+              console.error("Kamera durdurulamadi", err);
             }
-            let machineCode = decodedText;
-            if (decodedText.includes('/')) {
-              machineCode = decodedText.split('/').pop();
-            }
+            const machineCode = extractMachineCode(decodedText);
             navigate(`/machine/${machineCode}`);
           },
-          (err) => {
-            // Hatalar sürekli tetiklenir, loglamıyoruz
-          }
+          (err) => {}
         );
       } catch (err) {
-        console.error("Kamera başlatılamadı:", err);
-        setError("Kameraya erişilemedi veya cihazınızda kamera bulunmuyor.");
+        console.error("Kamera baslatilmadi:", err);
+        setError("Kameraya erisilemedi veya cihazinizda kamera bulunmuyor.");
       }
     };
 
@@ -56,17 +58,17 @@ export default function ScanQR() {
     <div style={{ maxWidth: '100%', margin: '0 auto' }}>
       <button 
         className="btn mb-2" 
-        style={{ padding: '0.5rem', background: 'transparent', color: 'var(--color-secondary)' }}
+        style={{ padding: '0.5rem', background: 'transparent', color: 'var(--color-text-muted)' }}
         onClick={() => navigate('/')}
       >
         <ArrowLeft size={20} />
-        Geri Dön
+        Geri Don
       </button>
 
       <div className="card">
-        <h2 className="mb-2 text-center">QR Kodu Tarayın</h2>
-        <p className="color-text-muted mb-3 text-center">
-          Makinenin üzerindeki QR kodu kameraya gösterin.
+        <h2 className="mb-2 text-center">QR Kodu Tarayin</h2>
+        <p style={{ color: 'var(--color-text-muted)', marginBottom: '1.5rem', textAlign: 'center' }}>
+          Makinenin uzerindeki QR kodu kameraya gosterin.
         </p>
 
         <div id="qr-reader" style={{ width: '100%', borderRadius: '8px', overflow: 'hidden' }}></div>
